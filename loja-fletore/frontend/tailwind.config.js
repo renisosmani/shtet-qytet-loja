@@ -3,12 +3,12 @@ export default {
   darkMode: 'class',
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {
-      fontFamily: {
-        'handwriting': ['"Gochi Hand"', 'cursive'],
-        'marker': ['"Permanent Marker"', 'cursive']
-      }
+  extend: {
+    fontFamily: {
+      marker: ['"Gochi Hand"', 'cursive'],
+      sans: ['"Patrick Hand"', 'sans-serif'],
     },
   },
+},
   plugins: [],
 }
