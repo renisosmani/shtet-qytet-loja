@@ -93,7 +93,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen text-blue-900 px-4 py-8 max-w-lg mx-auto pl-16">
+    <div className="min-h-screen text-blue-900 py-6 pr-6 pl-14 sm:pl-16 sm:pr-8 max-w-md sm:max-w-lg mx-auto overflow-x-hidden">
       
       {/* Vrimat e Fletores */}
       <div className="fixed left-2 top-0 bottom-0 flex flex-col justify-around py-10 z-50 pointer-events-none">
