@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Permanent+Marker&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  background-color: #fdfcf0; /* Ngjyra e letrës */
+  /* Vizat e fletores blu të hapur */
+  background-image: linear-gradient(#e0f2fe 1px, transparent 1px);
+  background-size: 100% 2.5rem;
+  background-position: 0 1.5rem;
+  overflow-x: hidden;
+}
+
+/* Margjina e kuqe e fletores */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 3rem;
+  width: 2px;
+  background-color: rgba(220, 38, 38, 0.4); /* Red-600 me opacity */
+  z-index: -1;
+}
+
+/* Kornizat e vizatuara me laps */
+.hand-drawn {
+  border: 2px solid #1e40af; /* Blue Ink */
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  background-color: transparent;
+}
+
+/* Rrethi i kuq i mësuesit */
+.teacher-circle {
+  border: 3px solid #dc2626; /* Red Ink */
+  border-radius: 50% 40% 60% 40% / 40% 50% 40% 60%;
+}
