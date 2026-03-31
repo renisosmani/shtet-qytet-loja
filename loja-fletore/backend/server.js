@@ -176,7 +176,7 @@ io.on('connection', (socket) => {
   };
 });
 
-const PORT = process.env.PORT || 10000; 
+const PORT = process.env.PORT || 10000;
 server.listen(PORT, '0.0.0.0', () => {
-    console.log(`Serveri po punon ne porten ${PORT}`);
+    console.log(`Serveri u ndez ne porten ${PORT}`);
 });

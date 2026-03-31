@@ -4,11 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Confetti from 'react-confetti';
 import { Crown } from 'lucide-react';
 
+
 const socket = io("https://shtet-qytet-backend.onrender.com", {
   transports: ["websocket"],
-  path: "/socket.io/",
   reconnection: true,
-  reconnectionAttempts: 5
+  reconnectionAttempts: 5,
+  reconnectionDelay: 1000
 });
 
 export default function App() {
