@@ -55,48 +55,80 @@ export default function App() {
   };
 
   useEffect(() => {
-    socket.on("room_created", (data) => { setRoom(data.roomCode); setPlayers(data.players); setGameState("lobby"); });
-    socket.on("joined_room", (data) => { setRoom(data.roomCode); setPlayers(data.players); setGameState("lobby"); });
-    socket.on("update_players", (data) => setPlayers(data));
-    
+    // 1. Pastrojmë dëgjuesit ekzistues për të shmangur dublikimet (Memory Leaks)
+    socket.removeAllListeners();
+
+    // 2. Eventet e dhomës
+    socket.on("room_created", (data) => {
+        setRoom(data.roomCode);
+        setPlayers(data.players);
+        setGameState("lobby");
+    });
+
+    socket.on("joined_room", (data) => {
+        setRoom(data.roomCode);
+        setPlayers(data.players);
+        setGameState("lobby");
+    });
+
+    socket.on("update_players", (data) => {
+        setPlayers(data);
+    });
+
+    // 3. Eventet e lojës
     socket.on("wheel_spinning", () => {
-      playSound('spin');
-      setIsSpinning(true);
-      setGameState("lobby");
+        playSound('spin');
+        setIsSpinning(true);
+        setGameState("lobby");
     });
 
     socket.on("wheel_stopped", (randomLetter) => {
-      setIsSpinning(false);
-      setLetter(randomLetter);
-      setIsFrozen(false);
-      setFormData({ shtet: "", qytet: "", emer: "", send: "", ushqim: "", kafshe: "" });
-      setGameState("playing");
+        setIsSpinning(false);
+        setLetter(randomLetter);
+        setIsFrozen(false);
+        // Reseto formën për raundin e ri
+        setFormData({ shtet: "", qytet: "", emer: "", send: "", ushqim: "", kafshe: "" });
+        setGameState("playing");
     });
 
     socket.on("freeze_inputs", () => {
-      setIsFrozen(true);
-      socket.emit("submit_answers", { roomCode: room, answers: formDataRef.current, playerName });
+        setIsFrozen(true);
+        // Përdorim ref-in për të marrë vlerat e fundit pa bërë re-render
+        socket.emit("submit_answers", { 
+            roomCode: room, 
+            answers: formDataRef.current, 
+            playerName 
+        });
     });
 
-    socket.on("update_contests", (data) => setContests(data));
+    socket.on("update_contests", (data) => {
+        setContests(data);
+    });
 
     socket.on("results_ready", (roundResults) => {
-      playSound('rip');
-      setIsRipping(true);
-      setTimeout(() => {
-        setResults(roundResults);
-        setGameState("results");
-        setIsRipping(false);
-      }, 1000);
+        playSound('rip');
+        setIsRipping(true);
+        setTimeout(() => {
+            setResults(roundResults);
+            setGameState("results");
+            setIsRipping(false);
+        }, 1000);
     });
 
-    return () => socket.removeAllListeners();
-  }, [room, playerName, players]);
+    // 4. Cleanup function: Hiq dëgjuesit kur komponenti mbyllet
+    return () => {
+        socket.removeAllListeners();
+    };
 
-  const handleStop = () => {
+    // MBANI VETËM 'room' dhe 'playerName' KËTU. 
+    // Largoni 'players' sepse shkakton loop të pafundmë!
+}, [room, playerName]); 
+
+const handleStop = () => {
+    if (!room) return; // Siguresë që mos dërgohet sinjal pa dhomë
     playSound('stop');
     socket.emit("stop_game", room);
-  };
+};
 
   return (
     <div className="min-h-screen text-blue-900 py-6 pr-6 pl-14 sm:pl-16 sm:pr-8 max-w-md sm:max-w-lg mx-auto overflow-x-hidden">
@@ -139,9 +171,18 @@ export default function App() {
               className="hand-drawn font-sans text-2xl font-black p-4 w-1/2 outline-none text-center uppercase bg-white/50"
               value={joinCode} onChange={(e) => setJoinCode(e.target.value)}
             />
-            <button onClick={() => socket.emit("join_room", { roomCode: joinCode.toUpperCase(), playerName })} className="hand-drawn font-sans text-lg font-black p-4 w-1/2 hover:bg-emerald-100 transition-colors bg-emerald-50 text-emerald-900 border-emerald-900">
-              Bashkohu
-            </button>
+            <button 
+  onClick={() => {
+    if (!joinCode || !playerName) {
+      alert("Shkruaj emrin dhe kodin!");
+      return;
+    }
+    socket.emit("join_room", { roomCode: joinCode.toUpperCase(), playerName });
+  }} 
+  className="hand-drawn font-sans text-lg font-black p-4 w-1/2 hover:bg-emerald-100 transition-colors bg-emerald-50 text-emerald-900 border-emerald-900"
+>
+  Bashkohu
+</button>
           </div>
         </motion.div>
       )}
