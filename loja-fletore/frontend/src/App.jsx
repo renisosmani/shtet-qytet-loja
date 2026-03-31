@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Confetti from 'react-confetti';
 import { Crown } from 'lucide-react';
 
-const socket = io.connect("http://localhost:3001");
+const socket = io.connect("https://shtet-qytet-backend-xyz.onrender.com");
 
 export default function App() {
   const [playerName, setPlayerName] = useState("");
