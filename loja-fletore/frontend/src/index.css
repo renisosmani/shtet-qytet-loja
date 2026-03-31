@@ -1,3 +1,22 @@
+
+:root {
+  color-scheme: light !important;
+}
+
+html, body {
+  background-color: #fdfcf0 !important; 
+  color: #1e40af !important; 
+}
+
+
+@media (prefers-color-scheme: dark) {
+  html, body {
+    background-color: #fdfcf0 !important;
+    color: #1e40af !important;
+  }
+}
+
+
 @import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Permanent+Marker&display=swap');
 
 @tailwind base;

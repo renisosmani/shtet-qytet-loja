@@ -96,11 +96,11 @@ export default function App() {
     <div className="min-h-screen text-blue-900 py-6 pr-6 pl-14 sm:pl-16 sm:pr-8 max-w-md sm:max-w-lg mx-auto overflow-x-hidden">
       
       {/* Vrimat e Fletores */}
-      <div className="fixed left-2 top-0 bottom-0 flex flex-col justify-around py-10 z-50 pointer-events-none">
-        {[...Array(12)].map((_, i) => (
-           <div key={i} className="w-6 h-6 bg-slate-200 rounded-full border-2 border-slate-300 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.2)]" />
-        ))}
-      </div>
+      <div 
+  key={i} 
+  className="w-6 h-6 rounded-full border-2 border-slate-400 shadow-[inset_3px_3px_5px_rgba(0,0,0,0.3)] bg-gradient-to-br from-slate-100 to-slate-300" 
+  style={{ backgroundColor: '#e2e8f0' }} /* Force light gray */
+/>
 
       <AnimatePresence>
         {isRipping && (
