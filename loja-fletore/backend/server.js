@@ -176,6 +176,7 @@ io.on('connection', (socket) => {
   };
 });
 
-// Përdor procesin e portit të Render
-const PORT = process.env.PORT || 3001;
-server.listen(PORT, () => console.log(`Serveri po punon në portin ${PORT}`));
+const PORT = process.env.PORT || 10000; 
+server.listen(PORT, '0.0.0.0', () => {
+    console.log(`Serveri po punon ne porten ${PORT}`);
+});
